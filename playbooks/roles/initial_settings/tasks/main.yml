@@ -1,3 +1,30 @@
 ---
-- name: Hello ansible
-  shell: echo 'hello'
+
+# 0. install homebrew
+# 0. install ansible via homebrew
+# 0. install git via homebrew
+#
+# 1. setup vimrc
+# 2. setup tmux
+# 3. setup fish
+# 4. setup python
+
+
+# install and setup dotfiles
+
+- name: install dotfiles
+  git:
+    repo: 'https://github.com/HiromuMasuda/dotfiles.git'
+    clone: no
+    dest: ~/
+
+- name: add link to dotfiles
+  file:
+    src: '~/dotfiles/{{ item.filename }}'
+    dest: '~/{{ item.filename }}'
+    state: link
+  with_items:
+    - { filename: '.vimrc' }
+    - { filename: '.tmux.conf' }
+    - { filename: '.gitconfig' }
+
