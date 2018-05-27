@@ -1,0 +1,5 @@
+---
+- name: Initial settings ansible
+  hosts: localhost
+  connection: local
+  roles: [initial_settings]

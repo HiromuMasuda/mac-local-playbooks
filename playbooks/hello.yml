@@ -1,6 +1,0 @@
----
-- name: Hello ansible
-  hosts: '{{ hosts }}'
-  remote_user: ubuntu
-  become: yes
-  roles: [hello]
