@@ -36,11 +36,3 @@ brew install ansible
 cd ~/Projects/mac-local-playbooks \
 ansible-playbook playbooks/initial_settings.yml
 ```
-
-## setup details
-
-1. vim
-2. tmux
-3. fish
-4. python
-

@@ -1,16 +1,6 @@
 ---
 
-# 0. install homebrew
-# 0. install ansible via homebrew
-# 0. install git via homebrew
-#
-# 1. setup vimrc
-# 2. setup tmux
-# 3. setup fish
-# 4. setup python
-
-
-# install and setup dotfiles
+# 1. install and setup dotfiles
 
 - name: install dotfiles
   git:
@@ -28,3 +18,34 @@
     - { filename: '.tmux.conf' }
     - { filename: '.gitconfig' }
 
+
+# 2. setup vimrc
+
+- name: Download dein installer file
+  get_url:
+    url: https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh
+    dest: /tmp/installer.sh
+
+- name: run dein installer
+  command: sh /tmp/installer.sh ~/.cache/dein
+
+
+# 3. setup .tmux.conf
+
+
+# 4. setup python
+
+- name: setup python
+  shell: |
+    brew install pyenv
+    pyenv install anaconda3-5.0.1
+    pyenv global anaconda3-5.0.1
+
+
+# 5. setup fish
+
+- name: install and setup fish
+  shell: |
+    brew install fish
+    sudo echo /usr/local/bin/fish >> /etc/shells
+    chsh -s /usr/local/bin/fish
