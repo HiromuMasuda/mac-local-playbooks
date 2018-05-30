@@ -29,23 +29,50 @@
 - name: run dein installer
   command: sh /tmp/installer.sh ~/.cache/dein
 
+- name: mkdir ~/.vim dir
+  file:
+    path: ~/.vim
+    state: directory
+    mode: 0755
+
+- name: install vim-hybrid
+  git:
+    repo: 'https://github.com/w0ng/vim-hybrid.git'
+    dest: ~/.vim
+    force: yes
+
+- name: change dir of vim-hybrid
+  shell: |
+    cp ~/.vim/vim-hybrid/colors/ ~/.vim/
+    rm -rf ~/.vim/vim-hybrid/
+    rm ~/.vim/README.md
+
 
 # 3. setup .tmux.conf
+
+- name: install reattach-to-user-namespace
+  command: brew install reattach-to-user-namespace
 
 
 # 4. setup python
 
-- name: setup python
+- name: install pyenv
+  command: brew install pyenv
+
+- name: install and setup anaconda
   shell: |
-    brew install pyenv
     pyenv install anaconda3-5.0.1
     pyenv global anaconda3-5.0.1
 
 
 # 5. setup fish
 
+- name: install fish
+  command: brew install fish
+
 - name: install and setup fish
+  become: true
+  become_user: root
   shell: |
-    brew install fish
     sudo echo /usr/local/bin/fish >> /etc/shells
     chsh -s /usr/local/bin/fish
