@@ -21,6 +21,9 @@
 
 # 2. setup vimrc
 
+- name: install vim
+  command: brew install vim
+
 - name: Download dein installer file
   get_url:
     url: https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh
@@ -71,8 +74,13 @@
   command: brew install fish
 
 - name: install and setup fish
-  become: true
-  become_user: root
+  become: yes
   shell: |
-    sudo echo /usr/local/bin/fish >> /etc/shells
+    echo /usr/local/bin/fish >> /etc/shells
     chsh -s /usr/local/bin/fish
+
+- name: install fisherman
+  command: curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
+
+- name: install color theme
+  command: fisher install omf/theme-edan

@@ -34,5 +34,5 @@ brew install ansible
 
 ```sh
 cd ~/Projects/mac-local-playbooks \
-ansible-playbook playbooks/initial_settings.yml
+ansible-playbook playbooks/initial_settings.yml --extra-vars "ansible_sudo_pass=t"
 ```
