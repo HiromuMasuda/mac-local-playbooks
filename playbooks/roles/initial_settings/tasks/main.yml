@@ -1,0 +1,86 @@
+---
+
+# 1. install and setup dotfiles
+
+- name: install dotfiles
+  git:
+    repo: 'https://github.com/HiromuMasuda/dotfiles.git'
+    clone: no
+    dest: ~/
+
+- name: add link to dotfiles
+  file:
+    src: '~/dotfiles/{{ item.filename }}'
+    dest: '~/{{ item.filename }}'
+    state: link
+  with_items:
+    - { filename: '.vimrc' }
+    - { filename: '.tmux.conf' }
+    - { filename: '.gitconfig' }
+
+
+# 2. setup vimrc
+
+- name: install vim
+  command: brew install vim
+
+- name: Download dein installer file
+  get_url:
+    url: https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh
+    dest: /tmp/installer.sh
+
+- name: run dein installer
+  command: sh /tmp/installer.sh ~/.cache/dein
+
+- name: mkdir ~/.vim dir
+  file:
+    path: ~/.vim
+    state: directory
+    mode: 0755
+
+- name: install vim-hybrid
+  git:
+    repo: 'https://github.com/w0ng/vim-hybrid.git'
+    dest: ~/.vim
+    force: yes
+
+- name: change dir of vim-hybrid
+  shell: |
+    cp ~/.vim/vim-hybrid/colors/ ~/.vim/
+    rm -rf ~/.vim/vim-hybrid/
+    rm ~/.vim/README.md
+
+
+# 3. setup .tmux.conf
+
+- name: install reattach-to-user-namespace
+  command: brew install reattach-to-user-namespace
+
+
+# 4. setup python
+
+- name: install pyenv
+  command: brew install pyenv
+
+- name: install and setup anaconda
+  shell: |
+    pyenv install anaconda3-5.0.1
+    pyenv global anaconda3-5.0.1
+
+
+# 5. setup fish
+
+- name: install fish
+  command: brew install fish
+
+- name: install and setup fish
+  become: yes
+  shell: |
+    echo /usr/local/bin/fish >> /etc/shells
+    chsh -s /usr/local/bin/fish
+
+- name: install fisherman
+  command: curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
+
+- name: install color theme
+  command: fisher install omf/theme-edan

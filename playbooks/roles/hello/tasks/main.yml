@@ -1,3 +1,0 @@
----
-- name: Hello ansible
-  shell: touch /tmp/hello_ansible.txt
